@@ -1,54 +1,63 @@
 #include "shell.h"
 
 /**
- * cd_dot - Change directory to the parent directory.
+ * cd_dot - changes to the parent directory
  *
- * This function changes the current directory to its parent directory.
+ * @datash: data relevant (environ)
  *
- * @datash: Pointer to the data relevant (environment).
- *
- * Return: No return.
+ * Return: no return
  */
 void cd_dot(data_shell *datash)
 {
-    char current_dir[PATH_MAX];
-    char *old_pwd;
-    char *new_pwd;
-    char *dir_token;
+	char pwd[PATH_MAX];
+	char *dir, *cp_pwd, *cp_strtok_pwd;
 
-    getcwd(current_dir, sizeof(current_dir));
-    old_pwd = _strdup(current_dir);
-    set_env("OLDPWD", old_pwd, datash);
+	getcwd(pwd, sizeof(pwd));
+	cp_pwd = _strdup(pwd);
+	set_env("OLDPWD", cp_pwd, datash);
+	dir = datash->args[1];
+	if (_strcmp(".", dir) == 0)
+	{
+		set_env("PWD", cp_pwd, datash);
+		free(cp_pwd);
+		return;
+	}
+	if (_strcmp("/", cp_pwd) == 0)
+	{
+		free(cp_pwd);
+		return;
+	}
+	cp_strtok_pwd = cp_pwd;
+	rev_string(cp_strtok_pwd);
+	cp_strtok_pwd = _strtok(cp_strtok_pwd, "/");
+	if (cp_strtok_pwd != NULL)
+	{
+		cp_strtok_pwd = _strtok(NULL, "\0");
 
-    if (_strcmp(".", datash->args[1]) == 0)
-    {
-        set_env("PWD", old_pwd, datash);
-        free(old_pwd);
-        return;
-    }
-
-    if (_strcmp("/", current_dir) == 0)
-    {
-        free(old_pwd);
-        return;
-    }
-
-    new_pwd = _strdup(old_pwd);
-    dir_token = strtok(new_pwd, "/");
-    while (dir_token != NULL)
-    {
-        chdir("..");
-        dir_token = strtok(NULL, "/");
-    }
-
-    getcwd(current_dir, sizeof(current_dir));
-    set_env("PWD", current_dir, datash);
-    datash->status = 0;
-
-    free(old_pwd);
-    free(new_pwd);
+		if (cp_strtok_pwd != NULL)
+			rev_string(cp_strtok_pwd);
+	}
+	if (cp_strtok_pwd != NULL)
+	{
+		chdir(cp_strtok_pwd);
+		set_env("PWD", cp_strtok_pwd, datash);
+	}
+	else
+	{
+		chdir("/");
+		set_env("PWD", "/", datash);
+	}
+	datash->status = 0;
+	free(cp_pwd);
 }
 
+/**
+ * cd_to - changes to a directory given
+ * by the user
+ *
+ * @datash: data relevant (directories)
+ * Return: no return
+ */
 void cd_to(data_shell *datash)
 {
 	char pwd[PATH_MAX];
@@ -76,7 +85,6 @@ void cd_to(data_shell *datash)
 
 	chdir(dir);
 }
-
 
 /**
  * cd_previous - changes to the previous directory
@@ -155,4 +163,3 @@ void cd_to_home(data_shell *datash)
 	free(p_pwd);
 	datash->status = 0;
 }
-
