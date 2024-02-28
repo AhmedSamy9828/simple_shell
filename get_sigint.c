@@ -1,15 +1,11 @@
 #include "shell.h"
 
 /**
- * get_sigint - Handles the SIGINT signal (Ctrl + C) in the shell prompt.
- *              Prints a message to notify the user and re-prompts for input.
- * @sig: The signal number (unused).
+ * get_sigint - Handle the crtl + c call in prompt
+ * @sig: The Signal handler
  */
 void get_sigint(int sig)
 {
-    // Suppress unused parameter warning
     (void)sig;
-
-    // Print a message to notify the user about the SIGINT
     write(STDOUT_FILENO, "\n^-^ ", 5);
 }
