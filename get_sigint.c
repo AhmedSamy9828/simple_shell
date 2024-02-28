@@ -11,5 +11,5 @@ void get_sigint(int sig)
     (void)sig;
 
     // Print a message to notify the user about the SIGINT
-    write(STDOUT_FILENO, "\nShell Interrupted\n^-^ ", 23);
+    write(STDOUT_FILENO, "\n^-^ ", 5);
 }
