@@ -8,46 +8,38 @@
  * @data: Pointer to the data structure containing environment variables.
  * Return: No return value.
  */
-void check_env(r_var **head, char *input, data_shell *data)
+void check_env(r_var **h, char *in, data_shell *data)
 {
-	int row, chr, j, value_len;
-	char **env_vars;
+	int row, chr, j, lval;
+	char **_envr;
 
-	env_vars = data->_environ;
-
-	// Check each environment variable
-	for (row = 0; env_vars[row]; row++)
+	_envr = data->_environ;
+	for (row = 0; _envr[row]; row++)
 	{
-		// Compare characters of the input string with environment variables
-		for (j = 1, chr = 0; env_vars[row][chr]; chr++)
+		for (j = 1, chr = 0; _envr[row][chr]; chr++)
 		{
-			if (env_vars[row][chr] == '=')
+			if (_envr[row][chr] == '=')
 			{
-				// Found a match, extract the value and add it to the list
-				value_len = _strlen(env_vars[row] + chr + 1);
-				add_rvar_node(head, j, env_vars[row] + chr + 1, value_len);
+				lval = _strlen(_envr[row] + chr + 1);
+				add_rvar_node(h, j, _envr[row] + chr + 1, lval);
 				return;
 			}
 
-			// Compare characters of the input with the current environment variable
-			if (input[j] == env_vars[row][chr])
+			if (in[j] == _envr[row][chr])
 				j++;
 			else
 				break;
 		}
 	}
 
-	// If no environment variable matches, add the input as a new variable
-	for (j = 0; input[j]; j++)
+	for (j = 0; in[j]; j++)
 	{
-		if (input[j] == ' ' || input[j] == '\t' || input[j] == ';' || input[j] == '\n')
+		if (in[j] == ' ' || in[j] == '\t' || in[j] == ';' || in[j] == '\n')
 			break;
 	}
 
-	// Add the variable to the list with a NULL value
-	add_rvar_node(head, j, NULL, 0);
+	add_rvar_node(h, j, NULL, 0);
 }
-
 
 /**
  * check_vars - Check if the typed variable is $$ or $?
@@ -58,44 +50,39 @@ void check_env(r_var **head, char *input, data_shell *data)
  * @data: Pointer to the data structure.
  * Return: Number of characters processed.
  */
-int check_vars(r_var **head, char *input, char *status, data_shell *data)
+int check_vars(r_var **h, char *in, char *st, data_shell *data)
 {
-	int i, length_status, length_pid;
+	int i, lst, lpd;
 
-	length_status = _strlen(status);
-	length_pid = _strlen(data->pid);
+	lst = _strlen(st);
+	lpd = _strlen(data->pid);
 
-	for (i = 0; input[i]; i++)
+	for (i = 0; in[i]; i++)
 	{
-		if (input[i] == '$')
+		if (in[i] == '$')
 		{
-			if (input[i + 1] == '?')
-			{
-				// Add the last status to the list
-				add_rvar_node(head, 2, status, length_status);
-				i++;
-			}
-			else if (input[i + 1] == '$')
-			{
-				// Add the process ID to the list
-				add_rvar_node(head, 2, data->pid, length_pid);
-				i++;
-			}
-			else if (input[i + 1] == '\n' || input[i + 1] == '\0' || input[i + 1] == ' ' || input[i + 1] == '\t' || input[i + 1] == ';')
-			{
-				// Add NULL to the list for cases where $ is followed by newline, null character, space, tab, or semicolon
-				add_rvar_node(head, 0, NULL, 0);
-			}
+			if (in[i + 1] == '?')
+				add_rvar_node(h, 2, st, lst), i++;
+			else if (in[i + 1] == '$')
+				add_rvar_node(h, 2, data->pid, lpd), i++;
+			else if (in[i + 1] == '\n')
+				add_rvar_node(h, 0, NULL, 0);
+			else if (in[i + 1] == '\0')
+				add_rvar_node(h, 0, NULL, 0);
+			else if (in[i + 1] == ' ')
+				add_rvar_node(h, 0, NULL, 0);
+			else if (in[i + 1] == '\t')
+				add_rvar_node(h, 0, NULL, 0);
+			else if (in[i + 1] == ';')
+				add_rvar_node(h, 0, NULL, 0);
 			else
-			{
-				// Check if the variable is an environment variable
-				check_env(head, input + i, data);
-			}
+				check_env(h, in + i, data);
 		}
 	}
 
 	return (i);
 }
+
 
 /**
  * replaced_input - replaces string into variables
