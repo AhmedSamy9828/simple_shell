@@ -1,39 +1,28 @@
 #include "shell.h"
 
 /**
- * _strcat - Concatenate two strings.
- *
- * This function concatenates the string pointed to by src to the end of
- * the string pointed to by dest.
- *
- * @dest: Pointer to the destination string.
- * @src: Pointer to the source string.
- *
- * Return: Pointer to the destination string (dest).
+ * _strcat - concatenate two strings
+ * @dest: char pointer the dest of the copied str
+ * @src: const char pointer the source of str
+ * Return: the dest
  */
 char *_strcat(char *dest, const char *src)
 {
-    int i;
-    int j;
+	int i;
+	int j;
 
-    /* Move to the end of the destination string */
-    for (i = 0; dest[i] != '\0'; i++)
-        ;
+	for (i = 0; dest[i] != '\0'; i++)
+		;
 
-    /* Append the source string to the destination string */
-    for (j = 0; src[j] != '\0'; j++)
-    {
-        dest[i] = src[j];
-        i++;
-    }
+	for (j = 0; src[j] != '\0'; j++)
+	{
+		dest[i] = src[j];
+		i++;
+	}
 
-    /* Add null terminator to the end of the concatenated string */
-    dest[i] = '\0';
-
-    return (dest);
+	dest[i] = '\0';
+	return (dest);
 }
-
-
 /**
  * *_strcpy - Copies the string pointed to by src.
  * @dest: Type char pointer the dest of the copied str
@@ -89,44 +78,29 @@ char *_strchr(char *s, char c)
 		return (s + i);
 	return ('\0');
 }
-
 /**
- * _strspn - Get the length of a prefix substring.
- *
- * This function calculates the length of the initial segment of a string
- * that consists entirely of characters in another specified string.
- *
- * @s: Pointer to the initial segment.
- * @accept: Pointer to the accepted bytes.
- *
- * Return: The number of accepted bytes.
+ * _strspn - gets the length of a prefix substring.
+ * @s: initial segment.
+ * @accept: accepted bytes.
+ * Return: the number of accepted bytes.
  */
 int _strspn(char *s, char *accept)
 {
-    int i, j;
-    int bool;
+	int i, j, bool;
 
-    /* Loop through the characters of the initial segment */
-    for (i = 0; s[i] != '\0'; i++)
-    {
-        bool = 1;
-
-        /* Check if the character is present in the accept string */
-        for (j = 0; accept[j] != '\0'; j++)
-        {
-            if (s[i] == accept[j])
-            {
-                bool = 0; /* Character found in accept string */
-                break;
-            }
-        }
-
-        /* Break the loop if character not found in accept string */
-        if (bool == 1)
-            break;
-    }
-
-    /* Return the length of the prefix substring */
-    return (i);
+	for (i = 0; *(s + i) != '\0'; i++)
+	{
+		bool = 1;
+		for (j = 0; *(accept + j) != '\0'; j++)
+		{
+			if (*(s + i) == *(accept + j))
+			{
+				bool = 0;
+				break;
+			}
+		}
+		if (bool == 1)
+			break;
+	}
+	return (i);
 }
-

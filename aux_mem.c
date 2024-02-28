@@ -1,29 +1,22 @@
 #include "shell.h"
 
 /**
- * _memcpy - Copy information between void pointers.
+ * _memcpy - copies information between void pointers.
+ * @newptr: destination pointer.
+ * @ptr: source pointer.
+ * @size: size of the new pointer.
  *
- * This function copies data from the source pointer to the destination pointer
- * for the specified size.
- *
- * @newptr: Destination pointer.
- * @ptr: Source pointer.
- * @size: Size of the new pointer.
- *
- * Return: This function does not return a value.
+ * Return: no return.
  */
 void _memcpy(void *newptr, const void *ptr, unsigned int size)
 {
-    char *char_ptr = (char *)ptr;
-    char *char_newptr = (char *)newptr;
-    unsigned int i;
+	char *char_ptr = (char *)ptr;
+	char *char_newptr = (char *)newptr;
+	unsigned int i;
 
-    /* Copy data from source pointer to destination pointer */
-    for (i = 0; i < size; i++)
-        char_newptr[i] = char_ptr[i];
+	for (i = 0; i < size; i++)
+		char_newptr[i] = char_ptr[i];
 }
-
-
 
 /**
  * _realloc - reallocates a memory block.
@@ -64,45 +57,35 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	return (newptr);
 }
 
-
 /**
- * _reallocdp - Reallocate memory block of a double pointer.
+ * _reallocdp - reallocates a memory block of a double pointer.
+ * @ptr: double pointer to the memory previously allocated.
+ * @old_size: size, in bytes, of the allocated space of ptr.
+ * @new_size: new size, in bytes, of the new memory block.
  *
- * This function reallocates memory for a double pointer to accommodate the new size.
- *
- * @ptr: Double pointer to the memory previously allocated.
- * @old_size: Size, in bytes, of the allocated space of ptr.
- * @new_size: New size, in bytes, of the new memory block.
- *
- * Return: Returns ptr.
- *         If new_size == old_size, returns ptr without changes.
- *         If malloc fails, returns NULL.
+ * Return: ptr.
+ * if new_size == old_size, returns ptr without changes.
+ * if malloc fails, returns NULL.
  */
 char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size)
 {
-    char **newptr;
-    unsigned int i;
+	char **newptr;
+	unsigned int i;
 
-    /* Allocate new memory block if ptr is NULL */
-    if (ptr == NULL)
-        return (malloc(sizeof(char *) * new_size));
+	if (ptr == NULL)
+		return (malloc(sizeof(char *) * new_size));
 
-    /* Return ptr if new_size is equal to old_size */
-    if (new_size == old_size)
-        return (ptr);
+	if (new_size == old_size)
+		return (ptr);
 
-    /* Allocate memory for the new double pointer */
-    newptr = malloc(sizeof(char *) * new_size);
-    if (newptr == NULL)
-        return (NULL);
+	newptr = malloc(sizeof(char *) * new_size);
+	if (newptr == NULL)
+		return (NULL);
 
-    /* Copy data from old pointer to new pointer */
-    for (i = 0; i < old_size; i++)
-        newptr[i] = ptr[i];
+	for (i = 0; i < old_size; i++)
+		newptr[i] = ptr[i];
 
-    /* Free the old pointer */
-    free(ptr);
+	free(ptr);
 
-    return (newptr);
+	return (newptr);
 }
-

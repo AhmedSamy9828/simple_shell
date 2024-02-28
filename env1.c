@@ -1,32 +1,26 @@
 #include "shell.h"
 
 /**
- * cmp_env_name - Compare environment variable names with the given name.
+ * cmp_env_name - compares env variables names
+ * with the name passed.
+ * @nenv: name of the environment variable
+ * @name: name passed
  *
- * This function compares the name of an environment variable with the
- * specified name to check if they are equal.
- *
- * @nenv: Name of the environment variable.
- * @name: Name passed for comparison.
- *
- * Return: 0 if the names are not equal, otherwise returns the length of
- * the name if they are equal.
+ * Return: 0 if are not equal. Another value if they are.
  */
 int cmp_env_name(const char *nenv, const char *name)
 {
-    int i;
+	int i;
 
-    /* Iterate through the characters of the environment variable name */
-    for (i = 0; nenv[i] != '='; i++)
-    {
-        /* Check if the characters are equal */
-        if (nenv[i] != name[i])
-        {
-            return (0); /* Names are not equal */
-        }
-    }
+	for (i = 0; nenv[i] != '='; i++)
+	{
+		if (nenv[i] != name[i])
+		{
+			return (0);
+		}
+	}
 
-    return (i + 1); /* Return the length of the name if equal */
+	return (i + 1);
 }
 
 /**
@@ -83,6 +77,4 @@ int _env(data_shell *datash)
 	datash->status = 0;
 
 	return (1);
-
 }
-

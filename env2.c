@@ -1,39 +1,28 @@
 #include "shell.h"
 
 /**
- * copy_info - Copy information to create a new environment variable or alias.
+ * copy_info - copies info to create
+ * a new env or alias
+ * @name: name (env or alias)
+ * @value: value (env or alias)
  *
- * This function copies the name and value to create a new environment variable
- * or alias with the specified name and value.
- *
- * @name: Name of the environment variable or alias.
- * @value: Value of the environment variable or alias.
- *
- * Return: Pointer to the new environment variable or alias.
+ * Return: new env or alias.
  */
 char *copy_info(char *name, char *value)
 {
-    char *new;
-    int len_name, len_value, len;
+	char *new;
+	int len_name, len_value, len;
 
-    /* Calculate the lengths of the name and value */
-    len_name = _strlen(name);
-    len_value = _strlen(value);
+	len_name = _strlen(name);
+	len_value = _strlen(value);
+	len = len_name + len_value + 2;
+	new = malloc(sizeof(char) * (len));
+	_strcpy(new, name);
+	_strcat(new, "=");
+	_strcat(new, value);
+	_strcat(new, "\0");
 
-    /* Calculate the total length required for the new string */
-    len = len_name + len_value + 2;
-
-    /* Allocate memory for the new string */
-    new = malloc(sizeof(char) * len);
-    if (new == NULL)
-        return (NULL);
-
-    /* Copy the name and value into the new string */
-    _strcpy(new, name);
-    _strcat(new, "=");
-    _strcat(new, value);
-
-    return (new);
+	return (new);
 }
 
 /**
@@ -138,4 +127,3 @@ int _unsetenv(data_shell *datash)
 	datash->_environ = realloc_environ;
 	return (1);
 }
-

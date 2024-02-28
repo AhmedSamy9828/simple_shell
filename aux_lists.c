@@ -1,47 +1,36 @@
 #include "shell.h"
 
 /**
- * add_sep_node_end - Add a separator node to the end of the separator list
- * 
- * This function creates a new separator node with the given separator character
- * and adds it to the end of the separator list.
- * 
- * @head: Pointer to the head of the separator list
- * @sep: Separator character to be added
- * 
- * Return: Pointer to the head of the updated separator list
+ * add_sep_node_end - adds a separator found at the end
+ * of a sep_list.
+ * @head: head of the linked list.
+ * @sep: separator found (; | &).
+ * Return: address of the head.
  */
 sep_list *add_sep_node_end(sep_list **head, char sep)
 {
-    sep_list *new_node, *temp;
+	sep_list *new, *temp;
 
-    /* Allocate memory for the new node */
-    new_node = malloc(sizeof(sep_list));
-    if (new_node == NULL)
-        return (NULL);
+	new = malloc(sizeof(sep_list));
+	if (new == NULL)
+		return (NULL);
 
-    /* Initialize the new node */
-    new_node->separator = sep;
-    new_node->next = NULL;
+	new->separator = sep;
+	new->next = NULL;
+	temp = *head;
 
-    /* If the list is empty, set the new node as the head */
-    if (*head == NULL)
-    {
-        *head = new_node;
-    }
-    else
-    {
-        /* Traverse the list to find the last node */
-        temp = *head;
-        while (temp->next != NULL)
-            temp = temp->next;
+	if (temp == NULL)
+	{
+		*head = new;
+	}
+	else
+	{
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new;
+	}
 
-        /* Add the new node to the end of the list */
-        temp->next = new_node;
-    }
-
-    /* Return the updated head of the list */
-    return (*head);
+	return (*head);
 }
 
 /**
