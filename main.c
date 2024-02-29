@@ -1,12 +1,11 @@
 #include "shell.h"
 
 /**
- * free_data - Frees data structure
+ * free_data - frees data structure
  *
- * @datash: Data structure
- * Return: No return
+ * @datash: data structure
+ * Return: no return
  */
-
 void free_data(data_shell *datash)
 {
 	unsigned int i;
@@ -72,4 +71,3 @@ int main(int ac, char **av)
 		return (255);
 	return (datash.status);
 }
-
