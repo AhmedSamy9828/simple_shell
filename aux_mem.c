@@ -2,6 +2,7 @@
 
 /**
  * _memcpy - copies information between void pointers.
+ *
  * @newptr: destination pointer.
  * @ptr: source pointer.
  * @size: size of the new pointer.
@@ -20,6 +21,7 @@ void _memcpy(void *newptr, const void *ptr, unsigned int size)
 
 /**
  * _realloc - reallocates a memory block.
+ *
  * @ptr: pointer to the memory previously allocated.
  * @old_size: size, in bytes, of the allocated space of ptr.
  * @new_size: new size, in bytes, of the new memory block.
@@ -59,6 +61,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 
 /**
  * _reallocdp - reallocates a memory block of a double pointer.
+ *
  * @ptr: double pointer to the memory previously allocated.
  * @old_size: size, in bytes, of the allocated space of ptr.
  * @new_size: new size, in bytes, of the new memory block.
